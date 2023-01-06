@@ -7,8 +7,8 @@ import './Login.css'
 import Sing from '../Singup/Sing';
 import { useState } from 'react';
 const LoginSchema = Yup.object().shape({
-    email_number: Yup.string().min(6, "Daha duzgun yazin").required("Email ve ya nomre daxil edin ").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, ". ve @isareden istifade etmek olar"),
-    password: Yup.string().min(8, "En az 8 isareli parol qoyun").required("Bu hisseni doldurun").matches(/^[a-zA-Z0-9]+$/)
+    email_number: Yup.string().email("Email sehvdir").min(6, "Daha duzgun yazin").required("Email ve ya nomre daxil edin "),
+password: Yup.string().min(8, "En az 8 isareli parol qoyun").required("Bu hisseni doldurun").matches(/^[a-zA-Z0-9@.#$%?]+$/)
 });
 function Login() {
     const [view, setview] = useState("none");
@@ -16,6 +16,10 @@ function Login() {
     const wiew = () => {
         setview("block")
         setopc(0.25)
+    }
+    const hidden=()=>{
+        setview("none")
+        setopc(1)
     }
     return (
         <div className='login'>
@@ -43,11 +47,11 @@ function Login() {
                             <Form className='form'>
                                 <div id='forms'>
                                     <Field id='email_number' name="email_number" placeholder="Email or phone number" />
-                                    {errors.email_number ? <div>{errors.email_number}</div> : null}
+                                    {errors.email_number ? <div style={{color:"red",fontsize:12}}>{errors.email_number}</div> : null}
                                 </div>
                                 <div id='forms'>
                                     <Field id='password' name="password" placeholder="Password" />
-                                    {errors.password ? <div>{errors.password}</div> : null}
+                                    {errors.password ? <div style={{color:"red",fontsize:12}}>{errors.password}</div> : null}
                                 </div>
 
                                 <button id='logbtn' type="submit">Log In</button>
@@ -60,7 +64,7 @@ function Login() {
                     </Formik>
                 </div>
             </div>
-            <div className='signlog' style={{ display: view }}><Sing /></div>
+            <div className='signlog' style={{ display: view }}><button className='X' onClick={hidden}>X</button><Sing /></div>
         </div>
     )
 }

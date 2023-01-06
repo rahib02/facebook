@@ -5,8 +5,10 @@ import { Field } from 'formik';
 import * as Yup from 'yup';
 import './Sing.css'
 const LoginSchema = Yup.object().shape({
-    email_number: Yup.string().min(6, "Daha duzgun yazin").required("Email ve ya nomre daxil edin ").matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, ". ve @isareden istifade etmek olar"),
-    password: Yup.string().min(8, "En az 8 isareli parol qoyun").required("Bu hisseni doldurun").matches(/^[a-zA-Z0-9]+$/)
+    firstname:Yup.string().min(4,"en az 4 herf olmalidi").required("bu hisseni doldurun"),
+    lastname:Yup.string().min(4,"en az 4 herf olmalidi").required("bu hisseni doldurun"),
+    email_number: Yup.string().email("Email sehvdir").min(6, "Daha duzgun yazin").required("Email ve ya nomre daxil edin "),
+    password: Yup.string().min(8, "En az 8 isareli parol qoyun").required("Bu hisseni doldurun").matches(/^[a-zA-Z0-9@.#$%/]+$/)
 
 });
 function Sing() {
@@ -40,17 +42,24 @@ function Sing() {
                     {({ values, errors }) => (
                         <Form className='form_sign'>
                             <div className='forms_sign'>
-                                <Field id="firstname" placeholder='First name' name='firstname' />
-                                <Field id="lastname" placeholder='Last name' name='lastname' />
+                                <div>
+                                    <Field id="firstname" placeholder='First name' name='firstname' />
+                                    {errors.firstname ? <div style={{color:"red",fontsize:12}}>{errors.firstname}</div> : null}
+                                </div>
+                                <div>
+                                    <Field id="lastname" placeholder='Last name' name='lastname' />
+                                    {errors.lastname ? <div style={{color:"red",fontsize:12}}>{errors.lastname}</div> : null}
+                                </div>
+                                
                             </div>
 
-                            <div className='forms_sign'>
+                            <div className='forms_signs'>
                                 <Field id='email_number_sign' name="email_number" placeholder="Mobil number or email" />
-                                {errors.email_number ? <div>{errors.email_number}</div> : null}
+                                {errors.email_number ? <div style={{color:"red",fontsize:12}}>{errors.email_number}</div> : null}
                             </div>
-                            <div className='forms_sign'>
+                            <div className='forms_signs'>
                                 <Field id='password_sign' name="password" placeholder="New password" />
-                                {errors.password ? <div>{errors.password}</div> : null}
+                                {errors.password ? <div style={{color:"red",fontsize:12}}>{errors.password}</div> : null}
                             </div>
                             <div className='forms_sign'>
                                 <Field id='ay' component="select" name='ay' >
@@ -78,9 +87,6 @@ function Sing() {
                                 <div className='genders'><label>Female</label><Field className='gender' type='radio' value='female' name='gender' /></div>
                                 <div className='genders'><label>Male</label><Field className='gender' type='radio' value='male' name='gender' /></div>
                                 <div className='genders'><label>XXX</label><Field className='gender' type='radio' value='XXX' name='gender' /></div>
-
-
-
                             </div>
                             <div className='text'>
                                 <p>People who use our service may have uploaded your contact information to Facebook. <a href="#">Learn more.</a></p>
